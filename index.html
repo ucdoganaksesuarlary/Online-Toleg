@@ -3,126 +3,113 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AltynPay Pro | Next-Gen</title>
+    <title>AltynPay X | Premium</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Space+Grotesk:wght@300;500;700&display=swap" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&display=swap');
+        body { font-family: 'Space Grotesk', sans-serif; background: #0b0f1a; color: white; }
+        .font-modern { font-family: 'Orbitron', sans-serif; }
         
-        body {
-            font-family: 'Space Grotesk', sans-serif;
-            background: #0f172a;
-            color: white;
-        }
-
         .glass-card {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 24px;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 28px;
         }
 
         .credit-card {
-            background: linear-gradient(135deg, #059669 0%, #10b981 100%);
-            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-            transform-style: preserve-3d;
-            box-shadow: 0 20px 50px rgba(16, 185, 129, 0.3);
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            box-shadow: 0 25px 50px -12px rgba(16, 185, 129, 0.4);
+            border-radius: 24px;
         }
 
-        .input-field {
-            background: rgba(30, 41, 59, 0.7);
-            border: 1px solid #334155;
+        .iban-box {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px dashed rgba(52, 211, 153, 0.3);
+            cursor: pointer;
             transition: all 0.3s;
         }
+        .iban-box:active { transform: scale(0.98); background: rgba(52, 211, 153, 0.1); }
 
-        .input-field:focus {
-            border-color: #34d399;
-            box-shadow: 0 0 0 2px rgba(52, 211, 153, 0.2);
-            outline: none;
+        .menu-item {
+            background: #161b2a;
+            border: 1px solid #242b3d;
+            transition: all 0.2s;
         }
+        .menu-item:hover { border-color: #10b981; transform: translateY(-2px); }
     </style>
 </head>
-<body class="min-h-screen flex items-center justify-center p-6">
+<body class="min-h-screen p-4 flex flex-col items-center">
 
-    <div class="max-w-md w-full">
-        <div class="text-center mb-10">
-            <h1 class="text-4xl font-bold tracking-tighter">AltynPay <span class="text-emerald-400">X</span></h1>
-            <p class="text-slate-400 mt-2">Döwrebap töleg ulgamy</p>
+    <div class="max-w-md w-full py-8">
+        <div class="text-center mb-8">
+            <h1 class="text-4xl font-bold font-modern">AltynPay <span class="text-emerald-400">X</span></h1>
+            <p class="text-slate-500 text-sm mt-1">Döwrebap sanly töleg</p>
         </div>
 
-        <div class="credit-card h-56 w-full p-8 mb-10 relative overflow-hidden">
-            <div class="flex justify-between items-start relative z-10">
-                <span class="font-black italic text-xl">ALTYN ASYR</span>
-                <div class="w-12 h-9 bg-yellow-400 rounded-md opacity-80"></div>
+        <div class="credit-card h-56 w-full p-8 mb-6 flex flex-col justify-between relative overflow-hidden">
+            <div class="flex justify-between items-start z-10">
+                <span class="font-modern font-bold text-xl tracking-widest italic text-white/90">ALTYN ASYR</span>
+                <div class="w-12 h-9 bg-yellow-400/80 rounded-md shadow-inner"></div>
             </div>
             
-            <div class="mt-10 relative z-10">
-                <p id="card-display" class="text-2xl tracking-[0.2em] font-medium">9500 **** **** ****</p>
+            <div class="z-10">
+                <p class="text-2xl tracking-[0.25em] font-bold text-white shadow-sm">9500 00** **** 0000</p>
             </div>
 
-            <div class="flex justify-between mt-10 relative z-10">
+            <div class="flex justify-between items-end z-10">
                 <div>
-                    <p class="text-[10px] uppercase opacity-60">Eýesi</p>
-                    <p class="font-bold">AMAN HAYITMURADOW</p>
+                    <p class="text-[9px] uppercase tracking-wider opacity-60">Karta Eýesi</p>
+                    <p class="font-bold text-lg tracking-wide uppercase">Berdimyrat Kerimow</p>
                 </div>
-                <div class="text-right">
-                    <p class="text-[10px] uppercase opacity-60">Möhleti</p>
-                    <p id="date-display" class="font-bold">12/28</p>
+                <div class="text-right font-modern">
+                    <p class="text-[9px] uppercase opacity-60">Valid Thru</p>
+                    <p class="font-bold">12/28</p>
                 </div>
             </div>
-            
-            <div class="absolute -right-10 -bottom-10 w-40 h-40 bg-white opacity-10 rounded-full"></div>
+            <div class="absolute -right-12 -bottom-12 w-48 h-48 bg-white/10 rounded-full"></div>
         </div>
 
-        <div class="glass-card p-8">
-            <div class="space-y-6">
-                <div>
-                    <label class="block text-sm text-slate-400 mb-2 ml-1">Karta belgisi</label>
-                    <input type="text" id="card-input" maxlength="19" placeholder="9500 0000 0000 0000" 
-                        class="input-field w-full p-4 rounded-xl text-white">
-                </div>
-
-                <div class="grid grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-sm text-slate-400 mb-2 ml-1">Möhleti</label>
-                        <input type="text" id="date-input" maxlength="5" placeholder="AA/YY" 
-                            class="input-field w-full p-4 rounded-xl text-white">
-                    </div>
-                    <div>
-                        <label class="block text-sm text-slate-400 mb-2 ml-1">Mukdary</label>
-                        <input type="number" placeholder="0.00 TMT" 
-                            class="input-field w-full p-4 rounded-xl text-white">
-                    </div>
-                </div>
-
-                <button class="w-full bg-emerald-500 hover:bg-emerald-400 text-slate-900 font-black py-4 rounded-xl transition-all transform active:scale-95 shadow-lg shadow-emerald-500/20">
-                    TÖLEGI TASSYKLA
-                </button>
+        <div class="glass-card p-5 mb-8 text-center">
+            <p class="text-emerald-400 text-xs font-bold mb-3 tracking-widest uppercase">Ziraat Bankası IBAN (Bas we nusgala)</p>
+            <div onclick="copyIban()" class="iban-box p-4 rounded-xl">
+                <p id="iban-text" class="text-sm font-mono tracking-tighter text-slate-200">TR17 0001 0090 1106 1212 2050 01</p>
             </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4">
+            <div class="menu-item p-6 rounded-2xl flex flex-col items-center cursor-pointer">
+                <div class="text-2xl mb-2 text-emerald-400">📡</div>
+                <p class="text-sm font-bold">Wi-Fi</p>
+            </div>
+            <div class="menu-item p-6 rounded-2xl flex flex-col items-center cursor-pointer">
+                <div class="text-2xl mb-2 text-blue-400">📺</div>
+                <p class="text-sm font-bold text-center">Älem TV</p>
+            </div>
+            <div class="menu-item p-6 rounded-2xl flex flex-col items-center cursor-pointer">
+                <div class="text-2xl mb-2 text-red-400">🎬</div>
+                <p class="text-sm font-bold">Belet Film</p>
+            </div>
+            <div class="menu-item p-6 rounded-2xl flex flex-col items-center cursor-pointer">
+                <div class="text-2xl mb-2 text-orange-400">📞</div>
+                <p class="text-sm font-bold text-center">Öý telefony</p>
+            </div>
+        </div>
+
+        <div id="toast" class="fixed bottom-10 left-1/2 -translate-x-1/2 bg-emerald-500 text-black px-6 py-2 rounded-full font-bold opacity-0 transition-opacity pointer-events-none">
+            Nusgalandy!
         </div>
     </div>
 
     <script>
-        const cardInput = document.getElementById('card-input');
-        const cardDisplay = document.getElementById('card-display');
-        const dateInput = document.getElementById('date-input');
-        const dateDisplay = document.getElementById('date-display');
-
-        // Karta belgisini formatlamak
-        cardInput.addEventListener('input', (e) => {
-            let val = e.target.value.replace(/\D/g, '');
-            let formatted = val.match(/.{1,4}/g)?.join(' ') || '';
-            e.target.value = formatted;
-            cardDisplay.innerText = formatted || '9500 **** **** ****';
-        });
-
-        // Senäni formatlamak
-        dateInput.addEventListener('input', (e) => {
-            let val = e.target.value.replace(/\D/g, '');
-            if (val.length > 2) val = val.substring(0,2) + '/' + val.substring(2,4);
-            e.target.value = val;
-            dateDisplay.innerText = val || '12/28';
-        });
+        function copyIban() {
+            const iban = document.getElementById('iban-text').innerText;
+            navigator.clipboard.writeText(iban).then(() => {
+                const toast = document.getElementById('toast');
+                toast.style.opacity = '1';
+                setTimeout(() => { toast.style.opacity = '0'; }, 2000);
+            });
+        }
     </script>
 </body>
 </html>
-
