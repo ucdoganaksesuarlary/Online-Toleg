@@ -3,93 +3,80 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AltynPay X | Two Nations One Card</title>
+    <title>AltynPay X | Minimalist</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Space+Grotesk:wght@300;500;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Space Grotesk', sans-serif; background: #0b0f1a; color: white; }
+        body { font-family: 'Space Grotesk', sans-serif; background: #0b101b; color: white; margin: 0; padding: 0; }
         .font-modern { font-family: 'Orbitron', sans-serif; }
         
-        /* Türkmenistan (Ýaşyl) we Türkiýe (Gyzyl) baýdak reňkleri */
-        .flag-gradient {
-            background: linear-gradient(135deg, #00873e 0%, #d21312 100%);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 28px;
+        .premium-card {
+            background: linear-gradient(135deg, #2d6a4f 0%, #40916c 25%, #800f2f 75%, #a4133c 100%);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            border-radius: 35px;
         }
 
-        .copy-overlay {
+        .glass-input {
             background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(5px);
-            border-radius: 12px;
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             transition: all 0.2s;
             cursor: pointer;
         }
-        .copy-overlay:active { background: rgba(255, 255, 255, 0.3); transform: scale(0.98); }
+        .glass-input:active { transform: scale(0.98); background: rgba(255, 255, 255, 0.2); }
 
-        .menu-item {
+        .menu-grid-item {
             background: #161b2a;
-            border: 1px solid #242b3d;
-            border-radius: 20px;
+            border: 1px solid #243147;
+            border-radius: 24px;
         }
     </style>
 </head>
-<body class="min-h-screen p-4 flex flex-col items-center">
+<body class="min-h-screen flex flex-col items-center p-5">
 
-    <div class="max-w-md w-full py-6">
+    <div class="max-w-md w-full py-4">
         <div class="text-center mb-8">
-            <h1 class="text-3xl font-bold font-modern tracking-tighter italic">AltynPay <span class="text-emerald-400">X</span></h1>
-            <p class="text-slate-500 text-[10px] uppercase tracking-[3px] mt-1">Türkmen • Türk</p>
+            <h1 class="text-3xl font-bold font-modern tracking-[0.2em] italic text-white">ALTYN ASYR</h1>
+            <p class="text-slate-500 text-[10px] tracking-[4px] uppercase mt-2">Türkmen • Türk</p>
         </div>
 
-        <div class="flag-gradient w-full p-6 mb-10 flex flex-col justify-between relative overflow-hidden min-h-[320px]">
-            <div class="flex justify-between items-start z-10">
-                <span class="font-modern font-bold text-lg tracking-widest italic text-white/90">ALTYN ASYR</span>
-                <div class="w-12 h-9 bg-yellow-400/90 rounded-md shadow-inner shadow-black/20"></div>
-            </div>
+        <div class="premium-card w-full p-8 mb-10 flex flex-col justify-center relative overflow-hidden min-h-[300px]">
             
-            <div class="z-10 text-center my-2">
-                <p class="text-2xl tracking-[0.25em] font-bold text-white drop-shadow-md">9500 00** **** 0000</p>
+            <div onclick="copyText('Berdimyrat Kerimow', 'At nusgalandy!')" class="glass-input p-5 z-10 mb-4 rounded-2xl">
+                <p class="text-[10px] uppercase font-bold tracking-wider opacity-60 mb-1">Karta Eýesi</p>
+                <p class="text-2xl font-bold tracking-wide">Berdimyrat Kerimow</p>
             </div>
 
-            <div onclick="copyText('Berdimyrat Kerimow', 'At nusgalandy!')" class="copy-overlay p-3 z-10 mb-2">
-                <p class="text-[9px] uppercase opacity-70 mb-1">Karta Eýesi (Bas we nusgala)</p>
-                <p class="text-lg font-bold tracking-wide">Berdimyrat Kerimow</p>
+            <div onclick="copyText('TR17 0001 0090 1106 1212 2050 01', 'IBAN nusgalandy!')" class="glass-input p-5 z-10 rounded-2xl">
+                <p class="text-[10px] uppercase font-bold tracking-wider opacity-60 mb-1">Ziraat Bankası IBAN</p>
+                <p class="text-[15px] font-mono font-bold leading-relaxed">TR17 0001 0090 1106 1212 2050 01</p>
             </div>
 
-            <div onclick="copyText('TR17 0001 0090 1106 1212 2050 01', 'IBAN nusgalandy!')" class="copy-overlay p-3 z-10">
-                <p class="text-[9px] uppercase opacity-70 mb-1">Ziraat Bankası IBAN (Bas we nusgala)</p>
-                <p class="text-[13px] font-mono font-bold leading-none">TR17 0001 0090 1106 1212 2050 01</p>
-            </div>
-
-            <div class="flex justify-end z-10 mt-2 opacity-60 text-[10px]">
-                <p>VALID THRU: 12/28</p>
-            </div>
-
-            <div class="absolute -left-10 -bottom-10 w-32 h-32 bg-white/5 rounded-full"></div>
-            <div class="absolute right-2 top-1/2 -translate-y-1/2 text-5xl opacity-10 font-bold italic">🇹🇲🇹🇷</div>
+            <div class="absolute -right-10 -bottom-10 w-48 h-48 bg-white/5 rounded-full blur-3xl"></div>
+            <div class="absolute -left-10 -top-10 w-32 h-32 bg-black/10 rounded-full blur-2xl"></div>
         </div>
 
         <div class="grid grid-cols-2 gap-4">
-            <div class="menu-item p-6 flex flex-col items-center">
-                <p class="text-3xl mb-2">📡</p>
-                <p class="text-sm font-bold">Wi-Fi</p>
+            <div class="menu-grid-item p-6 flex flex-col items-center">
+                <span class="text-3xl mb-2">📡</span>
+                <p class="text-xs font-bold uppercase tracking-widest text-slate-400">Wi-Fi</p>
             </div>
-            <div class="menu-item p-6 flex flex-col items-center">
-                <p class="text-3xl mb-2">📺</p>
-                <p class="text-sm font-bold">Älem TV</p>
+            <div class="menu-grid-item p-6 flex flex-col items-center">
+                <span class="text-3xl mb-2">📺</span>
+                <p class="text-xs font-bold uppercase tracking-widest text-slate-400">Älem TV</p>
             </div>
-            <div class="menu-item p-6 flex flex-col items-center">
-                <p class="text-3xl mb-2">🎬</p>
-                <p class="text-sm font-bold">Belet Film</p>
+            <div class="menu-grid-item p-6 flex flex-col items-center">
+                <span class="text-3xl mb-2">🎬</span>
+                <p class="text-xs font-bold uppercase tracking-widest text-slate-400">Belet Film</p>
             </div>
-            <div class="menu-item p-6 flex flex-col items-center">
-                <p class="text-3xl mb-2">📞</p>
-                <p class="text-sm font-bold">Öý telefony</p>
+            <div class="menu-grid-item p-6 flex flex-col items-center">
+                <span class="text-3xl mb-2">📞</span>
+                <p class="text-xs font-bold uppercase tracking-widest text-slate-400">Öý telefony</p>
             </div>
         </div>
 
-        <div id="toast" class="fixed bottom-12 left-1/2 -translate-x-1/2 bg-white text-black px-8 py-3 rounded-full font-bold opacity-0 transition-all pointer-events-none shadow-xl text-sm border-2 border-emerald-500">
+        <div id="toast" class="fixed top-10 left-1/2 -translate-x-1/2 bg-emerald-500 text-black px-8 py-3 rounded-2xl font-bold opacity-0 transition-all duration-300 pointer-events-none shadow-2xl z-50">
             Nusgalandy!
         </div>
     </div>
@@ -97,13 +84,13 @@
     <script>
         function copyText(text, msg) {
             navigator.clipboard.writeText(text).then(() => {
-                const t = document.getElementById('toast');
-                t.innerText = msg;
-                t.style.opacity = '1';
-                t.style.transform = 'translate(-50%, -10px)';
+                const toast = document.getElementById('toast');
+                toast.innerText = msg;
+                toast.style.opacity = '1';
+                toast.style.transform = 'translate(-50%, 20px)';
                 setTimeout(() => { 
-                    t.style.opacity = '0'; 
-                    t.style.transform = 'translate(-50%, 0px)';
+                    toast.style.opacity = '0'; 
+                    toast.style.transform = 'translate(-50%, 0px)';
                 }, 2000);
             });
         }
