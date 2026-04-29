@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="tk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AltynPay Pro | Next-Gen</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&display=swap');
+        
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background: #0f172a;
+            color: white;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+        }
+
+        .credit-card {
+            background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-style: preserve-3d;
+            box-shadow: 0 20px 50px rgba(16, 185, 129, 0.3);
+        }
+
+        .input-field {
+            background: rgba(30, 41, 59, 0.7);
+            border: 1px solid #334155;
+            transition: all 0.3s;
+        }
+
+        .input-field:focus {
+            border-color: #34d399;
+            box-shadow: 0 0 0 2px rgba(52, 211, 153, 0.2);
+            outline: none;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-6">
+
+    <div class="max-w-md w-full">
+        <div class="text-center mb-10">
+            <h1 class="text-4xl font-bold tracking-tighter">AltynPay <span class="text-emerald-400">X</span></h1>
+            <p class="text-slate-400 mt-2">Döwrebap töleg ulgamy</p>
+        </div>
+
+        <div class="credit-card h-56 w-full p-8 mb-10 relative overflow-hidden">
+            <div class="flex justify-between items-start relative z-10">
+                <span class="font-black italic text-xl">ALTYN ASYR</span>
+                <div class="w-12 h-9 bg-yellow-400 rounded-md opacity-80"></div>
+            </div>
+            
+            <div class="mt-10 relative z-10">
+                <p id="card-display" class="text-2xl tracking-[0.2em] font-medium">9500 **** **** ****</p>
+            </div>
+
+            <div class="flex justify-between mt-10 relative z-10">
+                <div>
+                    <p class="text-[10px] uppercase opacity-60">Eýesi</p>
+                    <p class="font-bold">AMAN HAYITMURADOW</p>
+                </div>
+                <div class="text-right">
+                    <p class="text-[10px] uppercase opacity-60">Möhleti</p>
+                    <p id="date-display" class="font-bold">12/28</p>
+                </div>
+            </div>
+            
+            <div class="absolute -right-10 -bottom-10 w-40 h-40 bg-white opacity-10 rounded-full"></div>
+        </div>
+
+        <div class="glass-card p-8">
+            <div class="space-y-6">
+                <div>
+                    <label class="block text-sm text-slate-400 mb-2 ml-1">Karta belgisi</label>
+                    <input type="text" id="card-input" maxlength="19" placeholder="9500 0000 0000 0000" 
+                        class="input-field w-full p-4 rounded-xl text-white">
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm text-slate-400 mb-2 ml-1">Möhleti</label>
+                        <input type="text" id="date-input" maxlength="5" placeholder="AA/YY" 
+                            class="input-field w-full p-4 rounded-xl text-white">
+                    </div>
+                    <div>
+                        <label class="block text-sm text-slate-400 mb-2 ml-1">Mukdary</label>
+                        <input type="number" placeholder="0.00 TMT" 
+                            class="input-field w-full p-4 rounded-xl text-white">
+                    </div>
+                </div>
+
+                <button class="w-full bg-emerald-500 hover:bg-emerald-400 text-slate-900 font-black py-4 rounded-xl transition-all transform active:scale-95 shadow-lg shadow-emerald-500/20">
+                    TÖLEGI TASSYKLA
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const cardInput = document.getElementById('card-input');
+        const cardDisplay = document.getElementById('card-display');
+        const dateInput = document.getElementById('date-input');
+        const dateDisplay = document.getElementById('date-display');
+
+        // Karta belgisini formatlamak
+        cardInput.addEventListener('input', (e) => {
+            let val = e.target.value.replace(/\D/g, '');
+            let formatted = val.match(/.{1,4}/g)?.join(' ') || '';
+            e.target.value = formatted;
+            cardDisplay.innerText = formatted || '9500 **** **** ****';
+        });
+
+        // Senäni formatlamak
+        dateInput.addEventListener('input', (e) => {
+            let val = e.target.value.replace(/\D/g, '');
+            if (val.length > 2) val = val.substring(0,2) + '/' + val.substring(2,4);
+            e.target.value = val;
+            dateDisplay.innerText = val || '12/28';
+        });
+    </script>
+</body>
+</html>
+
