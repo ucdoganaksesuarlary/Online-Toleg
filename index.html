@@ -27,7 +27,6 @@
         header { position: relative; text-align: center; margin-bottom: 20px; }
         header h1 { color: #a371f7; font-size: 26px; margin: 0; }
         
-        /* Perezagruzka düwmesi */
         .refresh-btn {
             position: absolute; right: 0; top: 5px;
             background: none; border: none; color: #8b949e; cursor: pointer; font-size: 20px;
@@ -66,7 +65,7 @@
         .row { display: flex; gap: 10px; }
 
         #addBtn {
-            background: #238636;
+            background: #467e4e;
             color: white;
             border: none;
             padding: 14px;
@@ -133,7 +132,7 @@
             <input type="text" id="pName" placeholder="Harydyň ady...">
             <div class="row">
                 <input type="number" id="pPrice" placeholder="Bahasy (TL)">
-                <input type="number" id="pQty" placeholder="Sany" value="1" min="1">
+                <input type="number" id="pQty" placeholder="Sany" value="1">
             </div>
             <select id="pCat">
                 <option value="Telefon Daş">Telefon Daş</option>
@@ -152,8 +151,8 @@
     </div>
 
     <script>
-        // Harytlary saklamak (Local Storage bilen baglanyşyk)
-        let db = JSON.parse(localStorage.getItem('premium_dukan_db')) || [];
+        // Bazany hemişelik saklamak üçin (aksesuar_db_tl ulanýarys)
+        let db = JSON.parse(localStorage.getItem('aksesuar_db_tl')) || [];
 
         function showAlert() {
             const alertBox = document.getElementById('customAlert');
@@ -168,9 +167,12 @@
             let totalCount = 0;
 
             db.forEach((item, i) => {
-                let itemTotal = parseFloat(item.price) * parseInt(item.qty);
+                let itemPrice = parseFloat(item.price) || 0;
+                let itemQty = parseInt(item.qty) || 1;
+                let itemTotal = itemPrice * itemQty;
+                
                 totalSum += itemTotal;
-                totalCount += parseInt(item.qty);
+                totalCount += itemQty;
 
                 list.innerHTML += `
                     <div class="card">
@@ -179,7 +181,7 @@
                         <div class="card-body">
                             <small style="color: #8b949e">${item.cat}</small>
                             <h3>${item.name}</h3>
-                            <div class="qty-tag">${item.qty} sany x ${item.price} TL</div>
+                            <div class="qty-tag">${itemQty} sany x ${itemPrice} TL</div>
                             <div class="price">${itemTotal.toFixed(2)} TL</div>
                         </div>
                     </div>
@@ -188,7 +190,7 @@
 
             document.getElementById('count').innerText = totalCount;
             document.getElementById('total').innerText = totalSum.toFixed(2);
-            localStorage.setItem('premium_dukan_db', JSON.stringify(db));
+            localStorage.setItem('aksesuar_db_tl', JSON.stringify(db));
         }
 
         document.getElementById('addBtn').onclick = function() {
@@ -196,9 +198,10 @@
             const price = document.getElementById('pPrice').value;
             const qty = document.getElementById('pQty').value;
             const cat = document.getElementById('pCat').value;
-            const imgFile = document.getElementById('pImg').files[0];
+            const imgInput = document.getElementById('pImg');
+            const imgFile = imgInput.files[0];
 
-            if (!name || !price || !qty) {
+            if (!name || !price) {
                 showAlert();
                 return;
             }
@@ -217,7 +220,7 @@
         };
 
         function save() {
-            localStorage.setItem('premium_dukan_db', JSON.stringify(db));
+            localStorage.setItem('aksesuar_db_tl', JSON.stringify(db));
             showItems();
             document.getElementById('pName').value = '';
             document.getElementById('pPrice').value = '';
@@ -232,8 +235,8 @@
             }
         }
 
-        // Programma açylanda harytlary ýükle
-        window.onload = showItems;
+        // Sahypa açylanda harytlary görkez
+        showItems();
     </script>
 </body>
 </html>
