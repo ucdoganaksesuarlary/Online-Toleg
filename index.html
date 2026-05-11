@@ -7,11 +7,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
     <style>
-        /* ÄHLI CSS ŞU ÝERDE - FON HÖKMAN GARAŇKY BOLAR */
         * { box-sizing: border-box; transition: 0.3s; }
         
         body {
-            background-color: #0d1117 !important; /* GitHub Dark Mode fony */
+            background-color: #0d1117 !important;
             color: #ffffff;
             font-family: 'Segoe UI', Tahoma, sans-serif;
             margin: 0;
@@ -62,8 +61,6 @@
             outline: none;
         }
 
-        input:focus { border-color: #a371f7; }
-
         .row { display: flex; gap: 10px; }
 
         #addBtn {
@@ -75,10 +72,7 @@
             width: 100%;
             font-weight: bold;
             cursor: pointer;
-            font-size: 16px;
         }
-
-        #addBtn:hover { background: #2ea043; }
 
         .file-btn {
             background: #21262d;
@@ -134,23 +128,28 @@
 
     <div class="container">
         <header>
-            <h1><i class="fas fa-store"></i> Premium Dükan</h1>
+            <h1><i class="fas fa-gem"></i> Premium Dükan</h1>
         </header>
 
         <div class="stats-card">
             <span>Haryt: <span id="count">0</span></span>
-            <span>Jemi: <span id="total">0</span> TMT</span>
+            <span>Jemi: <span id="total">0</span> TL</span>
         </div>
 
         <div class="input-form">
             <input type="text" id="pName" placeholder="Harydyň ady...">
             <div class="row">
-                <input type="number" id="pPrice" placeholder="Bahasy">
+                <input type="number" id="pPrice" placeholder="Bahasy (TL)">
                 <select id="pCat">
                     <option value="Telefon Daş">Telefon Daş</option>
                     <option value="Zarýatnik">Zarýatnik</option>
                     <option value="Gorag Aýnasy">Gorag Aýnasy</option>
                     <option value="Nauşnik">Nauşnik</option>
+                    <option value="Kalonka">Kalonka</option>
+                    <option value="Power Bank">Power Bank</option>
+                    <option value="Massaj Aparat">Massaj Aparat</option>
+                    <option value="Sagat">Sagat</option>
+                    <option value="Telefon">Telefon</option>
                 </select>
             </div>
             <label for="pImg" class="file-btn"><i class="fas fa-camera"></i> Surat Saýla</label>
@@ -162,8 +161,7 @@
     </div>
 
     <script>
-        // ÄHLI LOGIKA ŞU ÝERDE
-        let db = JSON.parse(localStorage.getItem('aksesuar_db')) || [];
+        let db = JSON.parse(localStorage.getItem('aksesuar_db_tl')) || [];
 
         function showItems() {
             const list = document.getElementById('list');
@@ -179,15 +177,15 @@
                         <div class="card-body">
                             <small style="color: #8b949e">${item.cat}</small>
                             <h3>${item.name}</h3>
-                            <div class="price">${item.price} TMT</div>
+                            <div class="price">${item.price} TL</div>
                         </div>
                     </div>
                 `;
             });
 
             document.getElementById('count').innerText = db.length;
-            document.getElementById('total').innerText = sum;
-            localStorage.setItem('aksesuar_db', JSON.stringify(db));
+            document.getElementById('total').innerText = sum.toFixed(2);
+            localStorage.setItem('aksesuar_db_tl', JSON.stringify(db));
         }
 
         document.getElementById('addBtn').onclick = function() {
