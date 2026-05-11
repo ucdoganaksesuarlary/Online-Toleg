@@ -3,45 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pro Accessory Manager</title>
+    <title>Aksesuar Dolandyryş</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-    <div class="glass-container">
+    <div class="main-container">
         <header>
-            <h1><i class="fas fa-gem"></i> Premium Aksesuar</h1>
-            <div class="stats">
-                <span>Jemi: <b id="totalCount">0</b></span> | 
-                <span>Baha: <b id="totalValue">0</b> TMT</span>
+            <h1><i class="fas fa-mobile-alt"></i> Premium Dükan</h1>
+            <div class="stats-panel">
+                <span>Haryt: <b id="totalCount">0</b></span>
+                <span>Jemi: <b id="totalValue">0</b> TMT</span>
             </div>
         </header>
 
         <section class="input-card">
-            <div class="input-row">
-                <input type="text" id="prodName" placeholder="Haryt ady...">
-                <input type="number" id="prodPrice" placeholder="Baha">
-            </div>
-            <div class="input-row">
+            <input type="text" id="prodName" placeholder="Haryt ady (mysal: iPhone 15)">
+            <div class="row">
+                <input type="number" id="prodPrice" placeholder="Bahasy">
                 <select id="prodCategory">
-                    <option value="Beýlekiler">Kategoriýa</option>
-                    <option value="Gabyk">Gabyk (Case)</option>
-                    <option value="Aýna">Gorag Aýnasy</option>
-                    <option value="Zarýad">Zarýad</option>
+                    <option value="Telefon Daş">Telefon Daş</option>
+                    <option value="Zarýatnik">Zarýatnik</option>
+                    <option value="Gorag Aýnasy">Gorag Aýnasy</option>
                     <option value="Nauşnik">Nauşnik</option>
+                    <option value="Beýlekiler">Beýlekiler</option>
                 </select>
-                <label for="prodImg" class="file-label"><i class="fas fa-camera"></i> Surat</label>
+            </div>
+            <div class="row">
+                <label for="prodImg" class="upload-btn"><i class="fas fa-image"></i> Surat Saýla</label>
                 <input type="file" id="prodImg" accept="image/*" style="display:none">
                 <button id="addBtn">Goşmak</button>
             </div>
         </section>
 
-        <div class="search-bar">
-            <i class="fas fa-search"></i>
-            <input type="text" id="searchInput" placeholder="Haryt gözle...">
-        </div>
-
-        <div id="inventoryList" class="grid-list">
+        <div id="inventoryList" class="product-grid">
             </div>
     </div>
     <script src="script.js"></script>
