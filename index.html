@@ -65,7 +65,7 @@
         .row { display: flex; gap: 10px; }
 
         #addBtn {
-            background: #467e4e;
+            background: #238636;
             color: white;
             border: none;
             padding: 14px;
@@ -151,7 +151,6 @@
     </div>
 
     <script>
-        // Bazany hemişelik saklamak üçin (aksesuar_db_tl ulanýarys)
         let db = JSON.parse(localStorage.getItem('aksesuar_db_tl')) || [];
 
         function showAlert() {
@@ -196,32 +195,46 @@
         document.getElementById('addBtn').onclick = function() {
             const name = document.getElementById('pName').value;
             const price = document.getElementById('pPrice').value;
-            const qty = document.getElementById('pQty').value;
+            const qty = document.getElementById('pQty').value || 1;
             const cat = document.getElementById('pCat').value;
             const imgInput = document.getElementById('pImg');
-            const imgFile = imgInput.files[0];
-
+            
             if (!name || !price) {
                 showAlert();
                 return;
             }
 
-            if (imgFile) {
+            if (imgInput.files && imgInput.files[0]) {
                 const reader = new FileReader();
                 reader.onload = function(e) {
-                    db.push({ name, price, qty, cat, img: e.target.result });
-                    save();
+                    const newItem = {
+                        name: name,
+                        price: price,
+                        qty: qty,
+                        cat: cat,
+                        img: e.target.result
+                    };
+                    db.push(newItem);
+                    saveData();
                 };
-                reader.readAsDataURL(imgFile);
+                reader.readAsDataURL(imgInput.files[0]);
             } else {
-                db.push({ name, price, qty, cat, img: null });
-                save();
+                const newItem = {
+                    name: name,
+                    price: price,
+                    qty: qty,
+                    cat: cat,
+                    img: null
+                };
+                db.push(newItem);
+                saveData();
             }
         };
 
-        function save() {
+        function saveData() {
             localStorage.setItem('aksesuar_db_tl', JSON.stringify(db));
             showItems();
+            // Inputlary arassalamak
             document.getElementById('pName').value = '';
             document.getElementById('pPrice').value = '';
             document.getElementById('pQty').value = '1';
@@ -231,12 +244,11 @@
         function remove(i) {
             if(confirm("Öçürmelimi?")) {
                 db.splice(i, 1);
-                save();
+                saveData();
             }
         }
 
-        // Sahypa açylanda harytlary görkez
-        showItems();
+        window.onload = showItems;
     </script>
 </body>
 </html>
