@@ -10,37 +10,39 @@
 <body>
     <div class="glass-container">
         <header>
-            <h1><i class="fas fa-microchip"></i> Aksesuar Dolandyryş</h1>
+            <h1><i class="fas fa-gem"></i> Premium Aksesuar</h1>
             <div class="stats">
-                <span>Jemi haryt: <b id="totalCount">0</b></span>
-                <span>Jemi baha: <b id="totalValue">0</b> TMT</span>
+                <span>Jemi: <b id="totalCount">0</b></span> | 
+                <span>Baha: <b id="totalValue">0</b> TMT</span>
             </div>
         </header>
 
         <section class="input-card">
-            <div class="input-group">
-                <input type="text" id="prodName" placeholder="Haryt ady (mysal: iPhone 15 Case)">
-                <input type="number" id="prodPrice" placeholder="Bahasy">
+            <div class="input-row">
+                <input type="text" id="prodName" placeholder="Haryt ady...">
+                <input type="number" id="prodPrice" placeholder="Baha">
+            </div>
+            <div class="input-row">
                 <select id="prodCategory">
                     <option value="Beýlekiler">Kategoriýa</option>
                     <option value="Gabyk">Gabyk (Case)</option>
                     <option value="Aýna">Gorag Aýnasy</option>
-                    <option value="Zarýad">Zarýad beriji</option>
+                    <option value="Zarýad">Zarýad</option>
                     <option value="Nauşnik">Nauşnik</option>
                 </select>
-                <button id="addBtn"><i class="fas fa-plus"></i></button>
+                <label for="prodImg" class="file-label"><i class="fas fa-camera"></i> Surat</label>
+                <input type="file" id="prodImg" accept="image/*" style="display:none">
+                <button id="addBtn">Goşmak</button>
             </div>
         </section>
 
-        <section class="list-container">
-            <div class="search-bar">
-                <i class="fas fa-search"></i>
-                <input type="text" id="searchInput" placeholder="Harytlardan gözle...">
+        <div class="search-bar">
+            <i class="fas fa-search"></i>
+            <input type="text" id="searchInput" placeholder="Haryt gözle...">
+        </div>
+
+        <div id="inventoryList" class="grid-list">
             </div>
-            <div id="inventoryList" class="grid-list">
-                <!-- JavaScript arkaly doldurylar -->
-            </div>
-        </section>
     </div>
     <script src="script.js"></script>
 </body>
