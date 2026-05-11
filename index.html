@@ -24,11 +24,13 @@
             max-width: 450px;
         }
 
-        header h1 {
-            color: #a371f7;
-            text-align: center;
-            font-size: 26px;
-            margin-bottom: 20px;
+        header { position: relative; text-align: center; margin-bottom: 20px; }
+        header h1 { color: #a371f7; font-size: 26px; margin: 0; }
+        
+        /* Perezagruzka düwmesi */
+        .refresh-btn {
+            position: absolute; right: 0; top: 5px;
+            background: none; border: none; color: #8b949e; cursor: pointer; font-size: 20px;
         }
 
         .stats-card {
@@ -74,18 +76,12 @@
             cursor: pointer;
         }
 
-        .file-btn {
-            background: #21262d;
-            text-align: center;
-            cursor: pointer;
-            display: block;
-        }
+        .file-btn { background: #21262d; text-align: center; cursor: pointer; display: block; }
 
         .product-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 15px;
-            margin-top: 20px; /* Harytlar aşakda dury ýaly boşluk */
         }
 
         .card {
@@ -96,48 +92,25 @@
             position: relative;
         }
 
-        .card img {
-            width: 100%;
-            height: 140px;
-            object-fit: cover;
-            background: #0d1117;
-        }
+        .card img { width: 100%; height: 140px; object-fit: cover; background: #0d1117; }
 
-        .card-body {
-            padding: 10px;
-            text-align: center;
-        }
-
+        .card-body { padding: 10px; text-align: center; }
         .card-body h3 { font-size: 14px; margin: 5px 0; color: #f0f6fc; }
-        .price { color: #3fb950; font-weight: bold; font-size: 16px; }
+        .price { color: #3fb950; font-weight: bold; font-size: 14px; }
+        .qty-tag { font-size: 11px; color: #8b949e; }
 
         .del-btn {
-            position: absolute;
-            top: 5px;
-            right: 5px;
+            position: absolute; top: 5px; right: 5px;
             background: rgba(248, 81, 73, 0.9);
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 25px;
-            height: 25px;
-            cursor: pointer;
-            z-index: 10;
+            color: white; border: none; border-radius: 50%;
+            width: 25px; height: 25px; cursor: pointer; z-index: 5;
         }
 
         #customAlert {
-            display: none;
-            position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #f85149;
-            color: white;
-            padding: 15px 30px;
-            border-radius: 10px;
-            z-index: 1000;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-            font-weight: bold;
+            display: none; position: fixed; top: 20px; left: 50%;
+            transform: translateX(-50%); background: #f85149;
+            color: white; padding: 15px 30px; border-radius: 10px;
+            z-index: 1000; box-shadow: 0 4px 15px rgba(0,0,0,0.5); font-weight: bold;
         }
     </style>
 </head>
@@ -148,41 +121,39 @@
     <div class="container">
         <header>
             <h1><i class="fas fa-gem"></i> Premium Dükan</h1>
+            <button class="refresh-btn" onclick="location.reload()"><i class="fas fa-sync-alt"></i></button>
         </header>
 
         <div class="stats-card">
             <span>Haryt: <span id="count">0</span></span>
-            <span>Jemi: <span id="total">0</span> TL</span>
+            <span>Jemi: <span id="total">0.00</span> TL</span>
         </div>
 
         <div class="input-form">
             <input type="text" id="pName" placeholder="Harydyň ady...">
             <div class="row">
                 <input type="number" id="pPrice" placeholder="Bahasy (TL)">
-                <select id="pCat">
-                    <option value="Telefon Daş">Telefon Daş</option>
-                    <option value="Zarýatnik">Zarýatnik</option>
-                    <option value="Gorag Aýnasy">Gorag Aýnasy</option>
-                    <option value="Nauşnik">Nauşnik</option>
-                    <option value="Kalonka">Kalonka</option>
-                    <option value="Power Bank">Power Bank</option>
-                    <option value="Massaj Aparat">Massaj Aparat</option>
-                    <option value="Sagat">Sagat</option>
-                    <option value="Telefon">Telefon</option>
-                </select>
+                <input type="number" id="pQty" placeholder="Sany" value="1" min="1">
             </div>
+            <select id="pCat">
+                <option value="Telefon Daş">Telefon Daş</option>
+                <option value="Zarýatnik">Zarýatnik</option>
+                <option value="Gorag Aýnasy">Gorag Aýnasy</option>
+                <option value="Nauşnik">Nauşnik</option>
+                <option value="Kalonka">Kalonka</option>
+                <option value="Sagat">Sagat</option>
+            </select>
             <label for="pImg" class="file-btn"><i class="fas fa-camera"></i> Surat Saýla</label>
             <input type="file" id="pImg" accept="image/*" style="display:none">
             <button id="addBtn">Haryt Goş</button>
         </div>
 
-        <!-- Harytlar şu ýerde görkeziler -->
         <div id="list" class="product-grid"></div>
     </div>
 
     <script>
-        // Harytlary ýatda saklamak üçin baza
-        let db = JSON.parse(localStorage.getItem('aksesuar_db_tl')) || [];
+        // Harytlary saklamak (Local Storage bilen baglanyşyk)
+        let db = JSON.parse(localStorage.getItem('premium_dukan_db')) || [];
 
         function showAlert() {
             const alertBox = document.getElementById('customAlert');
@@ -190,14 +161,17 @@
             setTimeout(() => { alertBox.style.display = 'none'; }, 2500);
         }
 
-        // Harytlary ekrana çykarmak we ýatda saklamak
         function showItems() {
             const list = document.getElementById('list');
             list.innerHTML = '';
-            let sum = 0;
+            let totalSum = 0;
+            let totalCount = 0;
 
             db.forEach((item, i) => {
-                sum += parseFloat(item.price);
+                let itemTotal = parseFloat(item.price) * parseInt(item.qty);
+                totalSum += itemTotal;
+                totalCount += parseInt(item.qty);
+
                 list.innerHTML += `
                     <div class="card">
                         <button class="del-btn" onclick="remove(${i})">&times;</button>
@@ -205,24 +179,26 @@
                         <div class="card-body">
                             <small style="color: #8b949e">${item.cat}</small>
                             <h3>${item.name}</h3>
-                            <div class="price">${item.price} TL</div>
+                            <div class="qty-tag">${item.qty} sany x ${item.price} TL</div>
+                            <div class="price">${itemTotal.toFixed(2)} TL</div>
                         </div>
                     </div>
                 `;
             });
 
-            document.getElementById('count').innerText = db.length;
-            document.getElementById('total').innerText = sum.toFixed(2);
-            localStorage.setItem('aksesuar_db_tl', JSON.stringify(db));
+            document.getElementById('count').innerText = totalCount;
+            document.getElementById('total').innerText = totalSum.toFixed(2);
+            localStorage.setItem('premium_dukan_db', JSON.stringify(db));
         }
 
         document.getElementById('addBtn').onclick = function() {
             const name = document.getElementById('pName').value;
             const price = document.getElementById('pPrice').value;
+            const qty = document.getElementById('pQty').value;
             const cat = document.getElementById('pCat').value;
             const imgFile = document.getElementById('pImg').files[0];
 
-            if (!name || !price) {
+            if (!name || !price || !qty) {
                 showAlert();
                 return;
             }
@@ -230,32 +206,34 @@
             if (imgFile) {
                 const reader = new FileReader();
                 reader.onload = function(e) {
-                    db.push({ name, price, cat, img: e.target.result });
+                    db.push({ name, price, qty, cat, img: e.target.result });
                     save();
                 };
                 reader.readAsDataURL(imgFile);
             } else {
-                db.push({ name, price, cat, img: null });
+                db.push({ name, price, qty, cat, img: null });
                 save();
             }
         };
 
         function save() {
+            localStorage.setItem('premium_dukan_db', JSON.stringify(db));
             showItems();
             document.getElementById('pName').value = '';
             document.getElementById('pPrice').value = '';
+            document.getElementById('pQty').value = '1';
             document.getElementById('pImg').value = '';
         }
 
         function remove(i) {
             if(confirm("Öçürmelimi?")) {
                 db.splice(i, 1);
-                showItems();
+                save();
             }
         }
 
-        // Sahypa açylanda harytlary awtomatiki görkez
-        showItems();
+        // Programma açylanda harytlary ýükle
+        window.onload = showItems;
     </script>
 </body>
 </html>
