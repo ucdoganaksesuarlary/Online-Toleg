@@ -122,9 +122,27 @@
             height: 25px;
             cursor: pointer;
         }
+
+        /* TÄZE: Custom Alert (Habarnama) dizaýny */
+        #customAlert {
+            display: none;
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #f85149;
+            color: white;
+            padding: 15px 30px;
+            border-radius: 10px;
+            z-index: 1000;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
+
+    <div id="customAlert">Maglumat doldur!</div>
 
     <div class="container">
         <header>
@@ -163,6 +181,12 @@
     <script>
         let db = JSON.parse(localStorage.getItem('aksesuar_db_tl')) || [];
 
+        function showAlert() {
+            const alertBox = document.getElementById('customAlert');
+            alertBox.style.display = 'block';
+            setTimeout(() => { alertBox.style.display = 'none'; }, 2500);
+        }
+
         function showItems() {
             const list = document.getElementById('list');
             list.innerHTML = '';
@@ -194,7 +218,10 @@
             const cat = document.getElementById('pCat').value;
             const imgFile = document.getElementById('pImg').files[0];
 
-            if (!name || !price) return alert("Maglumat doldur!");
+            if (!name || !price) {
+                showAlert(); // Öňki alert("...") penjiresiniň ýerine täze funksiýa
+                return;
+            }
 
             if (imgFile) {
                 const reader = new FileReader();
@@ -217,6 +244,8 @@
         }
 
         function remove(i) {
+            // Öçürmek baradaky soragy hem isleseňiz aýyryp bileris, 
+            // ýöne ýalňyş öçürmezlik üçin bu penjire galany gowy.
             if(confirm("Öçürmelimi?")) {
                 db.splice(i, 1);
                 showItems();
