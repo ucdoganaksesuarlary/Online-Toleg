@@ -169,7 +169,6 @@
                 let itemPrice = parseFloat(item.price) || 0;
                 let itemQty = parseInt(item.qty) || 1;
                 let itemTotal = itemPrice * itemQty;
-                
                 totalSum += itemTotal;
                 totalCount += itemQty;
 
@@ -207,26 +206,26 @@
             if (imgInput.files && imgInput.files[0]) {
                 const reader = new FileReader();
                 reader.onload = function(e) {
-                    const newItem = {
-                        name: name,
-                        price: price,
-                        qty: qty,
-                        cat: cat,
-                        img: e.target.result
+                    const img = new Image();
+                    img.onload = function() {
+                        // SURATY KIÇELTMEK (AppsGeyser üçin optimization)
+                        const canvas = document.createElement('canvas');
+                        const ctx = canvas.getContext('2d');
+                        const maxWidth = 400; // Ölçegi AppsGeyser kabul eder ýaly kiçeltýäris
+                        const scale = maxWidth / img.width;
+                        canvas.width = maxWidth;
+                        canvas.height = img.height * scale;
+                        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                        
+                        const compressedBase64 = canvas.toDataURL('image/jpeg', 0.7);
+                        db.push({ name, price, qty, cat, img: compressedBase64 });
+                        saveData();
                     };
-                    db.push(newItem);
-                    saveData();
+                    img.src = e.target.result;
                 };
                 reader.readAsDataURL(imgInput.files[0]);
             } else {
-                const newItem = {
-                    name: name,
-                    price: price,
-                    qty: qty,
-                    cat: cat,
-                    img: null
-                };
-                db.push(newItem);
+                db.push({ name, price, qty, cat, img: null });
                 saveData();
             }
         };
@@ -234,7 +233,6 @@
         function saveData() {
             localStorage.setItem('aksesuar_db_tl', JSON.stringify(db));
             showItems();
-            // Inputlary arassalamak
             document.getElementById('pName').value = '';
             document.getElementById('pPrice').value = '';
             document.getElementById('pQty').value = '1';
