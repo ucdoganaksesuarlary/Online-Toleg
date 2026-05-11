@@ -85,6 +85,7 @@
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 15px;
+            margin-top: 20px; /* Harytlar aşakda dury ýaly boşluk */
         }
 
         .card {
@@ -121,9 +122,9 @@
             width: 25px;
             height: 25px;
             cursor: pointer;
+            z-index: 10;
         }
 
-        /* TÄZE: Custom Alert (Habarnama) dizaýny */
         #customAlert {
             display: none;
             position: fixed;
@@ -175,10 +176,12 @@
             <button id="addBtn">Haryt Goş</button>
         </div>
 
+        <!-- Harytlar şu ýerde görkeziler -->
         <div id="list" class="product-grid"></div>
     </div>
 
     <script>
+        // Harytlary ýatda saklamak üçin baza
         let db = JSON.parse(localStorage.getItem('aksesuar_db_tl')) || [];
 
         function showAlert() {
@@ -187,6 +190,7 @@
             setTimeout(() => { alertBox.style.display = 'none'; }, 2500);
         }
 
+        // Harytlary ekrana çykarmak we ýatda saklamak
         function showItems() {
             const list = document.getElementById('list');
             list.innerHTML = '';
@@ -219,7 +223,7 @@
             const imgFile = document.getElementById('pImg').files[0];
 
             if (!name || !price) {
-                showAlert(); // Öňki alert("...") penjiresiniň ýerine täze funksiýa
+                showAlert();
                 return;
             }
 
@@ -244,14 +248,13 @@
         }
 
         function remove(i) {
-            // Öçürmek baradaky soragy hem isleseňiz aýyryp bileris, 
-            // ýöne ýalňyş öçürmezlik üçin bu penjire galany gowy.
             if(confirm("Öçürmelimi?")) {
                 db.splice(i, 1);
                 showItems();
             }
         }
 
+        // Sahypa açylanda harytlary awtomatiki görkez
         showItems();
     </script>
 </body>
