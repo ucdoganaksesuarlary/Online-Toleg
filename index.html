@@ -3,42 +3,229 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aksesuar Dolandyryş</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Premium Aksesuar Dükan</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        /* ÄHLI CSS ŞU ÝERDE - FON HÖKMAN GARAŇKY BOLAR */
+        * { box-sizing: border-box; transition: 0.3s; }
+        
+        body {
+            background-color: #0d1117 !important; /* GitHub Dark Mode fony */
+            color: #ffffff;
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            margin: 0;
+            padding: 15px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 450px;
+        }
+
+        header h1 {
+            color: #a371f7;
+            text-align: center;
+            font-size: 26px;
+            margin-bottom: 20px;
+        }
+
+        .stats-card {
+            background: #161b22;
+            padding: 15px;
+            border-radius: 12px;
+            display: flex;
+            justify-content: space-around;
+            border: 1px solid #30363d;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .input-form {
+            background: #161b22;
+            padding: 20px;
+            border-radius: 15px;
+            border: 1px solid #30363d;
+            margin-bottom: 25px;
+        }
+
+        input, select, .file-btn {
+            background: #010409;
+            border: 1px solid #30363d;
+            color: white;
+            padding: 12px;
+            border-radius: 8px;
+            width: 100%;
+            margin-bottom: 12px;
+            outline: none;
+        }
+
+        input:focus { border-color: #a371f7; }
+
+        .row { display: flex; gap: 10px; }
+
+        #addBtn {
+            background: #238636;
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 8px;
+            width: 100%;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        #addBtn:hover { background: #2ea043; }
+
+        .file-btn {
+            background: #21262d;
+            text-align: center;
+            cursor: pointer;
+            display: block;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .card {
+            background: #161b22;
+            border-radius: 12px;
+            border: 1px solid #30363d;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .card img {
+            width: 100%;
+            height: 140px;
+            object-fit: cover;
+            background: #0d1117;
+        }
+
+        .card-body {
+            padding: 10px;
+            text-align: center;
+        }
+
+        .card-body h3 { font-size: 14px; margin: 5px 0; color: #f0f6fc; }
+        .price { color: #3fb950; font-weight: bold; font-size: 16px; }
+
+        .del-btn {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: rgba(248, 81, 73, 0.9);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 25px;
+            height: 25px;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
-    <div class="main-container">
+
+    <div class="container">
         <header>
-            <h1><i class="fas fa-mobile-alt"></i> Premium Dükan</h1>
-            <div class="stats-panel">
-                <span>Haryt: <b id="totalCount">0</b></span>
-                <span>Jemi: <b id="totalValue">0</b> TMT</span>
-            </div>
+            <h1><i class="fas fa-store"></i> Premium Dükan</h1>
         </header>
 
-        <section class="input-card">
-            <input type="text" id="prodName" placeholder="Haryt ady (mysal: iPhone 15)">
+        <div class="stats-card">
+            <span>Haryt: <span id="count">0</span></span>
+            <span>Jemi: <span id="total">0</span> TMT</span>
+        </div>
+
+        <div class="input-form">
+            <input type="text" id="pName" placeholder="Harydyň ady...">
             <div class="row">
-                <input type="number" id="prodPrice" placeholder="Bahasy">
-                <select id="prodCategory">
+                <input type="number" id="pPrice" placeholder="Bahasy">
+                <select id="pCat">
                     <option value="Telefon Daş">Telefon Daş</option>
                     <option value="Zarýatnik">Zarýatnik</option>
                     <option value="Gorag Aýnasy">Gorag Aýnasy</option>
                     <option value="Nauşnik">Nauşnik</option>
-                    <option value="Beýlekiler">Beýlekiler</option>
                 </select>
             </div>
-            <div class="row">
-                <label for="prodImg" class="upload-btn"><i class="fas fa-image"></i> Surat Saýla</label>
-                <input type="file" id="prodImg" accept="image/*" style="display:none">
-                <button id="addBtn">Goşmak</button>
-            </div>
-        </section>
+            <label for="pImg" class="file-btn"><i class="fas fa-camera"></i> Surat Saýla</label>
+            <input type="file" id="pImg" accept="image/*" style="display:none">
+            <button id="addBtn">Haryt Goş</button>
+        </div>
 
-        <div id="inventoryList" class="product-grid">
-            </div>
+        <div id="list" class="product-grid"></div>
     </div>
-    <script src="script.js"></script>
+
+    <script>
+        // ÄHLI LOGIKA ŞU ÝERDE
+        let db = JSON.parse(localStorage.getItem('aksesuar_db')) || [];
+
+        function showItems() {
+            const list = document.getElementById('list');
+            list.innerHTML = '';
+            let sum = 0;
+
+            db.forEach((item, i) => {
+                sum += parseFloat(item.price);
+                list.innerHTML += `
+                    <div class="card">
+                        <button class="del-btn" onclick="remove(${i})">&times;</button>
+                        <img src="${item.img || 'https://via.placeholder.com/150/0d1117/ffffff?text=Surat+Yok'}">
+                        <div class="card-body">
+                            <small style="color: #8b949e">${item.cat}</small>
+                            <h3>${item.name}</h3>
+                            <div class="price">${item.price} TMT</div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            document.getElementById('count').innerText = db.length;
+            document.getElementById('total').innerText = sum;
+            localStorage.setItem('aksesuar_db', JSON.stringify(db));
+        }
+
+        document.getElementById('addBtn').onclick = function() {
+            const name = document.getElementById('pName').value;
+            const price = document.getElementById('pPrice').value;
+            const cat = document.getElementById('pCat').value;
+            const imgFile = document.getElementById('pImg').files[0];
+
+            if (!name || !price) return alert("Maglumat doldur!");
+
+            if (imgFile) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    db.push({ name, price, cat, img: e.target.result });
+                    save();
+                };
+                reader.readAsDataURL(imgFile);
+            } else {
+                db.push({ name, price, cat, img: null });
+                save();
+            }
+        };
+
+        function save() {
+            showItems();
+            document.getElementById('pName').value = '';
+            document.getElementById('pPrice').value = '';
+            document.getElementById('pImg').value = '';
+        }
+
+        function remove(i) {
+            if(confirm("Öçürmelimi?")) {
+                db.splice(i, 1);
+                showItems();
+            }
+        }
+
+        showItems();
+    </script>
 </body>
 </html>
